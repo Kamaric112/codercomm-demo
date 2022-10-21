@@ -8,12 +8,13 @@ import ContactMailIcon from "@mui/icons-material/ContactMail";
 import PersonAddRoundedIcon from "@mui/icons-material/PersonAddRounded";
 import PeopleAltIcon from "@mui/icons-material/PeopleAlt";
 
-import Profile from "../features/Profile";
+import Profile from "../features/user/Profile";
 import ProfileCover from "../features/user/ProfileCover";
 import { capitalCase } from "change-case";
 import AddFriend from "../features/friend/AddFriend";
 import FriendRequests from "../features/friend/FriendRequests";
 import FriendList from "../features/friend/FriendList";
+import SentRequestTab from "../features/friend/SentRequestTab";
 
 const TabsWrapperStyle = styled("div")(({ theme }) => ({
   zIndex: 9,
@@ -34,9 +35,11 @@ const TabsWrapperStyle = styled("div")(({ theme }) => ({
 function HomePage() {
   const { user } = useAuth();
   const [currentTab, setCurrentTab] = useState("profile");
+
   const handleChangeTab = (newValue) => {
     setCurrentTab(newValue);
   };
+
   const PROFILE_TABS = [
     {
       value: "profile",
@@ -58,10 +61,22 @@ function HomePage() {
       icon: <PersonAddRoundedIcon sx={{ fontSize: 24 }} />,
       component: <AddFriend />,
     },
+    {
+      value: "Sent_Requests",
+      icon: <ContactMailIcon sx={{ fontSize: 24 }} />,
+      component: <SentRequestTab />,
+    },
   ];
+
   return (
     <Container>
-      <Card sx={{ mb: 3, height: 200, position: "relative" }}>
+      <Card
+        sx={{
+          mb: 3,
+          height: 280,
+          position: "relative",
+        }}
+      >
         <ProfileCover profile={user} />
 
         <TabsWrapperStyle>
@@ -84,6 +99,7 @@ function HomePage() {
           </Tabs>
         </TabsWrapperStyle>
       </Card>
+
       {PROFILE_TABS.map((tab) => {
         const isMatched = tab.value === currentTab;
         return isMatched && <Box key={tab.value}>{tab.component}</Box>;

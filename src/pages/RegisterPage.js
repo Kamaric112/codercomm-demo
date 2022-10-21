@@ -1,37 +1,42 @@
 import React, { useState } from "react";
-import useAuth from "../hooks/useAuth";
-import { FCheckbox, FormProvider, FTextField } from "../components/form";
-import { useForm } from "react-hook-form";
-import { yupResolver } from "@hookform/resolvers/yup";
-import * as Yup from "yup";
-import { useNavigate, useLocation, Link as RouterLink } from "react-router-dom";
-
 import {
-  Alert,
-  Container,
-  IconButton,
-  InputAdornment,
   Link,
   Stack,
+  Alert,
+  IconButton,
+  InputAdornment,
+  Container,
 } from "@mui/material";
 import { LoadingButton } from "@mui/lab";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
+
+import { useNavigate, Link as RouterLink } from "react-router-dom";
+
+import useAuth from "../hooks/useAuth";
+import { FormProvider, FTextField } from "../components/form";
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as Yup from "yup";
+
 const RegisterSchema = Yup.object().shape({
   name: Yup.string().required("Name is required"),
   email: Yup.string().email("Invalid email").required("Email is required"),
   password: Yup.string().required("Password is required"),
   passwordConfirmation: Yup.string()
-    .required("please confirm your password")
-    .oneOf([Yup.ref("password")], "Password must match"),
+    .required("Please confirm your password")
+    .oneOf([Yup.ref("password")], "Passwords must match"),
 });
+
 const defaultValues = {
   name: "",
   email: "",
   password: "",
   passwordConfirmation: "",
 };
+
 function RegisterPage() {
+  const navigate = useNavigate();
   const auth = useAuth();
   const [showPassword, setShowPassword] = useState(false);
   const [showPasswordConfirmation, setShowPasswordConfirmation] =
@@ -47,7 +52,7 @@ function RegisterPage() {
     setError,
     formState: { errors, isSubmitting },
   } = methods;
-  const navigate = useNavigate();
+
   const onSubmit = async (data) => {
     const { name, email, password } = data;
     try {
@@ -59,6 +64,7 @@ function RegisterPage() {
       setError("responseError", error);
     }
   };
+
   return (
     <Container maxWidth="xs">
       <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>

@@ -9,11 +9,11 @@ import {
   Container,
 } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
-import { getFriends } from "./friendSlice";
+import { getSentRequestsSuccess } from "./friendSlice";
 import UserCard from "./UserCard";
 import SearchInput from "../../components/SearchInput";
 
-function FriendList() {
+function SentRequestTab() {
   const [filterName, setFilterName] = useState("");
   const [page, setPage] = React.useState(1);
 
@@ -28,30 +28,28 @@ function FriendList() {
   };
 
   useEffect(() => {
-    dispatch(getFriends({ filterName, page }));
+    dispatch(getSentRequestsSuccess({ filterName, page }));
   }, [filterName, page, dispatch]);
 
   return (
     <Container>
       <Typography variant="h4" sx={{ mb: 3 }}>
-        Friends
+        Sent Request
       </Typography>
       <Card sx={{ p: 3 }}>
         <Stack spacing={2}>
           <Stack direction={{ xs: "column", md: "row" }} alignItems="center">
             <SearchInput handleSubmit={handleSubmit} />
-
             <Box sx={{ flexGrow: 1 }} />
-
             <Typography
               variant="subtitle"
               sx={{ color: "text.secondary", ml: 1 }}
             >
               {totalUsers > 1
-                ? `${totalUsers} friends found`
+                ? `${totalUsers} requests found`
                 : totalUsers === 1
-                ? `${totalUsers} friend found`
-                : "No friend found"}
+                ? `${totalUsers} request found`
+                : "No request found"}
             </Typography>
 
             <Pagination
@@ -74,4 +72,4 @@ function FriendList() {
   );
 }
 
-export default FriendList;
+export default SentRequestTab;
