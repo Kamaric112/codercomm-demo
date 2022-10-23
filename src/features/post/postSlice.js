@@ -26,6 +26,8 @@ const slice = createSlice({
       state.isLoading = false;
       state.error = null;
 
+      // After enter to push post to Server, 2 line below will
+      // support to get post from Server and display on screen
       const newPost = action.payload;
       if (state.currentPagePosts.length % POSTS_PER_PAGE === 0)
         state.currentPagePosts.pop();
@@ -80,7 +82,6 @@ export const createPost =
   async (dispatch) => {
     dispatch(slice.actions.startLoading());
     try {
-      // upload image to cloudinary
       const imageUrl = await cloudinaryUpload(image);
       const response = await apiService.post("/posts", {
         content,

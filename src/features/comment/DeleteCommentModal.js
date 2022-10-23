@@ -10,7 +10,7 @@ import { useDispatch } from "react-redux";
 
 import { deleteComment } from "./commentSlice";
 
-export default function DeleteModal({
+export default function DeleteCommentModal({
   comment,
   openDeleteModal,
   setOpenDeleteModal,
@@ -19,7 +19,7 @@ export default function DeleteModal({
   const handleDeleteClose = () => setOpenDeleteModal(false);
 
   const dispatch = useDispatch();
-  const handleDeleteComment = () =>
+  const handleDeletePost = () =>
     dispatch(deleteComment({ commentId: comment._id, postId: comment.post }));
 
   return (
@@ -30,7 +30,7 @@ export default function DeleteModal({
       aria-describedby="alert-dialog-description"
     >
       <DialogTitle id="alert-dialog-title">
-        {"Delete this comment?"}
+        {"Do you want to delete this comment?"}
       </DialogTitle>
       <DialogContent>
         <DialogContentText id="alert-dialog-description">
@@ -46,12 +46,8 @@ export default function DeleteModal({
         >
           No
         </Button>
-        <Button
-          sx={{ fontWeight: 700 }}
-          onClick={handleDeleteComment}
-          autoFocus
-        >
-          Yes
+        <Button sx={{ fontWeight: 700 }} onClick={handleDeletePost} autoFocus>
+          Delete
         </Button>
       </DialogActions>
     </Dialog>

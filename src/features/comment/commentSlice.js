@@ -43,6 +43,8 @@ const slice = createSlice({
     getCommentsSuccess(state, action) {
       state.isLoading = false;
       state.error = null;
+      // state.comments = state.comments.concat[action.payload];
+      // console.log("action.payload getCommentSuccess", action.payload);
       const { postId, comments, count, page } = action.payload;
       console.log("getCommentsSuccess", comments);
 

@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 
-import DeleteModal from "./DeleteModal";
+import DeleteCommentModal from "./DeleteCommentModal";
+
 import { sendCommentReaction } from "./commentSlice";
 
 import { Box, IconButton, Stack, Typography } from "@mui/material";
@@ -58,7 +59,7 @@ function CommentReaction({ comment }) {
         </IconButton>
       </Box>
       {openDeleteModal && (
-        <DeleteModal
+        <DeleteCommentModal
           comment={comment}
           openDeleteModal={openDeleteModal}
           setOpenDeleteModal={setOpenDeleteModal}

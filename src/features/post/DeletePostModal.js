@@ -29,7 +29,7 @@ export default function DeletePostModal({
       aria-describedby="alert-dialog-description"
     >
       <DialogTitle id="alert-dialog-title" sx={{ fontWeight: 700 }}>
-        {"Delete this post?"}
+        {"Do you want to delete this post?"}
       </DialogTitle>
       <DialogContent>
         <DialogContentText id="alert-dialog-description">

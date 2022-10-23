@@ -11,8 +11,13 @@ import {
   Avatar,
   Typography,
   CardHeader,
-  Button,
+  IconButton,
+  MenuItem,
+  Menu,
 } from "@mui/material";
+import MoreVertIcon from "@mui/icons-material/MoreVert";
+import DeleteIcon from "@mui/icons-material/Delete";
+import EditIcon from "@mui/icons-material/Edit";
 
 import PostReaction from "./PostReaction";
 import EditPostModal from "./EditPostModal";
@@ -25,21 +30,45 @@ function PostCard({ post, userId }) {
   const { user } = useAuth();
   console.log(user._id, userId);
 
+  const [anchorEl, setAnchorEl] = useState(null);
+  const isMenuOpen = Boolean(anchorEl);
+
   const [openEditModal, setOpenEditModal] = useState(false);
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
+
+  const handleOptionMenuOpen = (event) => setAnchorEl(event.currentTarget);
+  const handleOptionMenuClose = () => setAnchorEl(null);
 
   const handleOpenEditModal = () => setOpenEditModal(true);
   const handleOpenDeleteModal = () => setOpenDeleteModal(true);
 
-  const ModalButtons = (
-    <>
-      <Button variant="contained" onClick={handleOpenDeleteModal}>
+  const menuId = "primary-search-options-menu";
+  const renderOptionsMenu = (
+    <Menu
+      anchorEl={anchorEl}
+      anchorOrigin={{
+        vertical: "bottom",
+        horizontal: "right",
+      }}
+      id={menuId}
+      keepMounted
+      transformOrigin={{
+        vertical: "top",
+        horizontal: "right",
+      }}
+      open={isMenuOpen}
+      onClose={handleOptionMenuClose}
+    >
+      <MenuItem onClick={handleOpenDeleteModal}>
+        <DeleteIcon sx={{ mr: 1 }} />
         Delete
-      </Button>
-      <Button variant="contained" onClick={handleOpenEditModal}>
+      </MenuItem>
+
+      <MenuItem onClick={handleOpenEditModal}>
+        <EditIcon sx={{ mr: 1 }} />
         Edit
-      </Button>
-    </>
+      </MenuItem>
+    </Menu>
   );
 
   return (
@@ -68,7 +97,15 @@ function PostCard({ post, userId }) {
             {fDate(post.createdAt)}
           </Typography>
         }
+        action={
+          user._id === userId && (
+            <IconButton onClick={handleOptionMenuOpen}>
+              <MoreVertIcon sx={{ fontSize: 30 }} />
+            </IconButton>
+          )
+        }
       />
+      {renderOptionsMenu}
 
       {/* Popup window for Edit Post */}
       {openEditModal && (
@@ -105,8 +142,6 @@ function PostCard({ post, userId }) {
           </Box>
         )}
         <PostReaction post={post} />
-        {ModalButtons}
-
         <CommentList postId={post._id} />
         <CommentForm postId={post._id} />
       </Stack>
